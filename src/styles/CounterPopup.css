@@ -1,0 +1,383 @@
+/* CounterPopup.css - Modern 3D Animated CSS */
+.counter-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.counter-popup {
+  
+  border-radius: 25px;
+  padding: 0;
+  max-width: 500px;
+  width: 95%;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: slideIn 0.4s ease-out;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.popup-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.popup-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  opacity: 0.3;
+}
+
+.popup-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.hospital-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.title-content h2 {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.department {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* Current Status Section */
+.current-status-section {
+  padding: 30px 25px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.status-indicator.large {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  justify-content: center;
+}
+
+.status-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-dot.active { background: #27ae60; }
+.status-dot.busy { background: #e74c3c; }
+.status-dot.break { background: #f39c12; }
+.status-dot.offline { background: #95a5a6; }
+
+.status-text {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--light-color);
+}
+
+.tokens-display-large {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.token-display {
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.token-display:hover {
+  transform: translateY(-5px) rotateX(5deg);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.token-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.token-number-large {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Courier New', monospace;
+}
+
+.token-number-large.next {
+  color: var(--warning-color);
+  opacity: 0.8;
+}
+
+.current-patient-info {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+}
+
+.patient-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--light-color);
+}
+
+.call-time {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Queue Section */
+.queue-section {
+  padding: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.queue-section h3 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: var(--light-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.queue-list {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.queue-item {
+  
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  animation: slideIn 0.5s ease-out;
+}
+
+.queue-item:hover {
+  transform: translateX(5px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.queue-position {
+  font-weight: 700;
+  color: var(--primary-color);
+  min-width: 30px;
+}
+
+.ticket-info {
+  flex: 1;
+  margin: 0 15px;
+}
+
+.ticket-number {
+  font-weight: 600;
+  color: var(--light-color);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.patient-name-small {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.wait-time {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  min-width: 60px;
+  text-align: right;
+}
+
+.loading-queue {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  padding: 40px 20px;
+  opacity: 0.7;
+}
+
+.empty-queue {
+  text-align: center;
+  padding: 40px 20px;
+  opacity: 0.7;
+}
+
+.empty-queue i {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+  color: var(--success-color);
+}
+
+/* Footer */
+.popup-footer {
+  padding: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Scrollbar */
+.queue-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.queue-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.queue-list::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+.queue-list::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .counter-popup {
+    margin: 20px;
+    width: calc(100% - 40px);
+  }
+  
+  .tokens-display-large {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .token-number-large {
+    font-size: 2rem;
+  }
+  
+  .popup-footer {
+    flex-direction: column;
+  }
+  
+  .popup-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .popup-header {
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .logo-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .current-status-section {
+    padding: 20px;
+  }
+  
+  .queue-section {
+    padding: 20px;
+  }
+  
+  .queue-item {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .ticket-info {
+    margin: 0;
+  }
+}

@@ -1,13 +1,272 @@
-body {
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary-3d: #10a37f;
+  --primary-dark-3d: #0d8c6c;
+  --primary-light-3d: #12b592;
+  --secondary-3d: #5436da;
+  --accent-3d: #ff6b35;
+  --warning-3d: #f59e0b;
+  --success-3d: #10b981;
+  --danger-3d: #ef4444;
+  --background-3d: #f8f9fa;
+  --surface-3d: #ffffff;
+  --text-primary-3d: #1a1a1a;
+  --text-secondary-3d: #6b7280;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-elevated: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --border-radius-3d: 16px;
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-3d);
+  color: var(--text-primary-3d);
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#root {
+  min-height: 100vh;
+  perspective: 1000px;
+}
+
+/* Enhanced 3D Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #f1f1f1, #e1e1e1);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-3d), var(--primary-dark-3d));
+  border-radius: 8px;
+  border: 2px solid #f1f1f1;
+  transition: var(--transition-smooth);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--primary-light-3d), var(--primary-3d));
+  transform: scale(1.1);
+}
+
+/* Enhanced Selection */
+::selection {
+  background: linear-gradient(135deg, var(--primary-3d), var(--accent-3d));
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+::-moz-selection {
+  background: linear-gradient(135deg, var(--primary-3d), var(--accent-3d));
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* 3D Animations */
+@keyframes float3d {
+  0%, 100% { 
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg); 
+  }
+  33% { 
+    transform: translateY(-10px) rotateX(5deg) rotateY(5deg); 
+  }
+  66% { 
+    transform: translateY(-5px) rotateX(-3deg) rotateY(-3deg); 
+  }
+}
+
+@keyframes pulse3d {
+  0%, 100% { 
+    transform: scale(1) rotateX(0deg); 
+    box-shadow: 0 10px 30px rgba(16, 163, 127, 0.3);
+  }
+  50% { 
+    transform: scale(1.05) rotateX(5deg); 
+    box-shadow: 0 15px 40px rgba(16, 163, 127, 0.5);
+  }
+}
+
+@keyframes glow3d {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(16, 163, 127, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(16, 163, 127, 0.8), 0 0 40px rgba(16, 163, 127, 0.6);
+  }
+}
+
+/* 3D Card Base Styles */
+.card-3d {
+  background: var(--surface-3d);
+  border-radius: var(--border-radius-3d);
+  box-shadow: 
+    0 10px 30px var(--shadow-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: var(--transition-smooth);
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-3d), var(--accent-3d));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover::before {
+  transform: scaleX(1);
+}
+
+.card-3d:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(5deg) translateZ(20px);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced Button Styles */
+.btn-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.btn-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-3d:hover::before {
+  left: 100%;
+}
+
+.btn-3d:hover {
+  transform: translateY(-3px) translateZ(10px);
+}
+
+.btn-3d:active {
+  transform: translateY(-1px) translateZ(5px);
+}
+
+.btn-3d.primary {
+  background: linear-gradient(135deg, var(--primary-3d), var(--primary-light-3d));
+  color: white;
+  box-shadow: 0 8px 20px rgba(16, 163, 127, 0.3);
+}
+
+.btn-3d.secondary {
+  background: linear-gradient(135deg, var(--secondary-3d), #764ba2);
+  color: white;
+  box-shadow: 0 8px 20px rgba(84, 54, 218, 0.3);
+}
+
+.btn-3d.success {
+  background: linear-gradient(135deg, var(--success-3d), #059669);
+  color: white;
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-3d.danger {
+  background: linear-gradient(135deg, var(--danger-3d), #dc2626);
+  color: white;
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+/* Loading Spinner 3D */
+.spinner-3d {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(16, 163, 127, 0.2);
+  border-top: 4px solid var(--primary-3d);
+  border-radius: 50%;
+  animation: spin3d 1.5s linear infinite;
+  box-shadow: 0 8px 25px rgba(16, 163, 127, 0.3);
+  position: relative;
+}
+
+.spinner-3d::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--accent-3d);
+  border-radius: 50%;
+  animation: spin3d 2s linear infinite reverse;
+}
+
+@keyframes spin3d {
+  0% { 
+    transform: rotate(0deg) rotateX(20deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) rotateX(20deg) scale(1.1);
+  }
+  100% { 
+    transform: rotate(360deg) rotateX(20deg) scale(1);
+  }
+}
+
+/* Focus styles for accessibility */
+.btn-3d:focus,
+.card-3d:focus {
+  outline: 3px solid var(--primary-3d);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

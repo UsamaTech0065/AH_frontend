@@ -1,0 +1,404 @@
+/* DisplayScreen.css - Modern Display Screen */
+.display-screen {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Theme Variations */
+.display-screen.default {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.display-screen.green {
+  background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+}
+
+.display-screen.red {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+}
+
+.display-screen.dark {
+  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+}
+
+.display-screen.professional {
+  background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+}
+
+/* Header Styles */
+.display-header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  padding: 25px 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.hospital-logo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.hospital-logo i {
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.hospital-logo h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, #a8edea);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Main Content */
+.display-content {
+  padding: 40px;
+  min-height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Waiting Display */
+.waiting-display {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+}
+
+.now-serving h2 {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.current-tickets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.serving-ticket {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 25px;
+  padding: 40px 30px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+  animation: slideInUp 0.6s ease;
+}
+
+.serving-ticket:hover {
+  transform: translateY(-10px) rotateX(5deg);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.ticket-number-large {
+  font-size: 4rem;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 15px;
+  text-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #fff, #a8edea);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ticket-info {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ticket-info div {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Counter Display */
+.counter-display {
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.counter-info {
+  margin-bottom: 50px;
+}
+
+.counter-number-large {
+  font-size: 6rem;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 20px;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #fff, #a8edea);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: float 4s ease-in-out infinite;
+}
+
+.counter-status {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #26d0ce;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.current-ticket-display {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 30px;
+  padding: 50px 40px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  animation: glow 3s ease-in-out infinite;
+}
+
+.ticket-number-xlarge {
+  font-size: 8rem;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 20px;
+  text-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #fff, #a8edea);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.department-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Custom Display */
+.custom-display {
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.custom-display h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: white;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.custom-display div {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Advertisement Section */
+.advertisement-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 20px 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ad-content {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  animation: slideInLeft 15s linear infinite;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+  50% { 
+    transform: scale(1.05);
+    text-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 25px 50px rgba(38, 208, 206, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  50% { 
+    box-shadow: 0 35px 70px rgba(38, 208, 206, 0.7);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .display-content {
+    padding: 30px;
+  }
+  
+  .now-serving h2 {
+    font-size: 3rem;
+  }
+  
+  .ticket-number-large {
+    font-size: 3rem;
+  }
+  
+  .counter-number-large {
+    font-size: 4rem;
+  }
+  
+  .ticket-number-xlarge {
+    font-size: 6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .display-header {
+    padding: 20px;
+  }
+  
+  .hospital-logo {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .hospital-logo h1 {
+    font-size: 2rem;
+  }
+  
+  .display-content {
+    padding: 20px;
+  }
+  
+  .now-serving h2 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+  }
+  
+  .current-tickets {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .serving-ticket {
+    padding: 30px 20px;
+  }
+  
+  .counter-number-large {
+    font-size: 3rem;
+  }
+  
+  .current-ticket-display {
+    padding: 30px 20px;
+  }
+  
+  .ticket-number-xlarge {
+    font-size: 4rem;
+  }
+  
+  .department-name {
+    font-size: 1.8rem;
+  }
+  
+  .ad-content {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hospital-logo h1 {
+    font-size: 1.6rem;
+  }
+  
+  .now-serving h2 {
+    font-size: 2rem;
+  }
+  
+  .ticket-number-large {
+    font-size: 2.5rem;
+  }
+  
+  .counter-number-large {
+    font-size: 2.5rem;
+  }
+  
+  .ticket-number-xlarge {
+    font-size: 3rem;
+  }
+  
+  .department-name {
+    font-size: 1.4rem;
+  }
+  
+  .advertisement-section {
+    padding: 15px 20px;
+  }
+  
+  .ad-content {
+    font-size: 1rem;
+  }
+}

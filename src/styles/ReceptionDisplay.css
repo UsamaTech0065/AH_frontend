@@ -1,0 +1,631 @@
+/* ReceptionDisplay.css - Modern Reception Display */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --accent-color: #e74c3c;
+  --success-color: #27ae60;
+  --warning-color: #f39c12;
+  --background-color: #1a5276;
+  --text-color: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.reception-display {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--background-color), #2c3e50);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated Background */
+.reception-display::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(231, 76, 60, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  animation: backgroundShift 15s ease-in-out infinite alternate;
+  z-index: -1;
+}
+
+@keyframes backgroundShift {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.1) rotate(1deg); }
+}
+
+/* Theme Variations */
+.reception-display.default {
+  --primary-color: #3498db;
+  --accent-color: #e74c3c;
+}
+
+.reception-display.green {
+  --primary-color: #27ae60;
+  --accent-color: #2ecc71;
+}
+
+.reception-display.red {
+  --primary-color: #e74c3c;
+  --accent-color: #c0392b;
+}
+
+.reception-display.dark {
+  --background-color: #2c3e50;
+  --card-bg: rgba(0, 0, 0, 0.3);
+}
+
+.reception-display.professional {
+  --primary-color: #34495e;
+  --accent-color: #e67e22;
+}
+
+/* Header Styles */
+.display-header {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 20px 40px;
+  animation: slideInFromTop 0.8s ease-out;
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hospital-branding {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.hospital-branding i {
+  font-size: 3rem;
+  color: var(--accent-color);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.hospital-info {
+  text-align: center;
+}
+
+.hospital-info h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  background: linear-gradient(135deg, var(--text-color), #e0e0e0);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hospital-info p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Main Content */
+.reception-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 30px;
+  min-height: calc(100vh - 120px);
+}
+
+/* Now Serving Section */
+.now-serving-section {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
+  animation: scaleIn 0.8s ease-out 0.2s both;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  text-align: center;
+}
+
+.section-title i {
+  color: var(--accent-color);
+  animation: ringBell 2s ease-in-out infinite;
+}
+
+@keyframes ringBell {
+  0%, 100% { transform: rotate(0deg); }
+  10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+  20%, 40%, 60%, 80% { transform: rotate(10deg); }
+}
+
+.current-tickets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.serving-ticket {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  animation: ticketGlow 3s ease-in-out infinite;
+}
+
+@keyframes ticketGlow {
+  0%, 100% { 
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.3),
+      0 0 30px rgba(255, 255, 255, 0.1);
+  }
+  50% { 
+    box-shadow: 
+      0 20px 45px rgba(0, 0, 0, 0.4),
+      0 0 50px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.serving-ticket::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% { transform: rotate(45deg) translateX(-100%); }
+  100% { transform: rotate(45deg) translateX(100%); }
+}
+
+.serving-ticket:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+.ticket-number {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 15px;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: numberPulse 1s ease-in-out infinite;
+}
+
+@keyframes numberPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.ticket-details {
+  font-size: 1.1rem;
+}
+
+.department {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.counter {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.no-active-calls {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 40px;
+  opacity: 0.7;
+}
+
+.placeholder {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  opacity: 0.5;
+}
+
+.subtext {
+  font-size: 1.2rem;
+}
+
+/* Queues Section */
+.queues-section {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
+  animation: slideInFromLeft 0.8s ease-out 0.4s both;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.queues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.queue-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  animation: cardFadeIn 0.6s ease-out both;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.queue-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--glass-border);
+}
+
+.queue-card:nth-child(1) { animation-delay: 0.5s; }
+.queue-card:nth-child(2) { animation-delay: 0.6s; }
+.queue-card:nth-child(3) { animation-delay: 0.7s; }
+.queue-card:nth-child(4) { animation-delay: 0.8s; }
+.queue-card:nth-child(5) { animation-delay: 0.9s; }
+
+.dept-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+.waiting-count {
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 5px;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.waiting-text {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Advertisement Section */
+.advertisement-section {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
+  animation: slideInFromBottom 0.8s ease-out 0.6s both;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ad-content {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 20px;
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+  border-radius: 15px;
+  border: 1px dashed var(--glass-border);
+  animation: textScroll 15s linear infinite;
+}
+
+@keyframes textScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Custom Message */
+.custom-message {
+  background: linear-gradient(135deg, var(--accent-color), #c0392b);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  animation: messagePulse 2s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes messagePulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+  }
+  50% { 
+    transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(231, 76, 60, 0.5);
+  }
+}
+
+/* Status Indicators */
+.queue-card.low-wait .waiting-count {
+  color: var(--success-color);
+}
+
+.queue-card.medium-wait .waiting-count {
+  color: var(--warning-color);
+}
+
+.queue-card.high-wait .waiting-count {
+  color: var(--accent-color);
+  animation: highWaitPulse 1s ease-in-out infinite;
+}
+
+@keyframes highWaitPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Emergency Override */
+.reception-display.emergency {
+  --primary-color: #e74c3c;
+  --accent-color: #c0392b;
+  animation: emergencyFlash 1s ease-in-out infinite;
+}
+
+@keyframes emergencyFlash {
+  0%, 100% { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+  50% { background: linear-gradient(135deg, #c0392b, #e74c3c); }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .reception-content {
+    grid-template-rows: auto auto auto auto;
+    gap: 20px;
+  }
+  
+  .current-tickets {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .queues-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .display-header {
+    padding: 15px 20px;
+  }
+  
+  .hospital-branding {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .hospital-info h1 {
+    font-size: 2rem;
+  }
+  
+  .reception-content {
+    padding: 20px 15px;
+  }
+  
+  .now-serving-section,
+  .queues-section,
+  .advertisement-section {
+    padding: 25px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .ticket-number {
+    font-size: 3rem;
+  }
+  
+  .waiting-count {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hospital-info h1 {
+    font-size: 1.5rem;
+  }
+  
+  .hospital-info p {
+    font-size: 1rem;
+  }
+  
+  .now-serving-section,
+  .queues-section {
+    padding: 20px;
+  }
+  
+  .current-tickets {
+    grid-template-columns: 1fr;
+  }
+  
+  .queues-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ticket-number {
+    font-size: 2.5rem;
+  }
+  
+  .serving-ticket {
+    padding: 20px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .reception-display {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .display-header,
+  .advertisement-section,
+  .custom-message {
+    display: none !important;
+  }
+  
+  .now-serving-section,
+  .queues-section {
+    box-shadow: none !important;
+    border: 2px solid #000 !important;
+    background: white !important;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .reception-display::before {
+    animation: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .reception-display {
+    --card-bg: #000;
+    --glass-border: #fff;
+  }
+  
+  .serving-ticket {
+    border: 3px solid #fff;
+  }
+  
+  .queue-card {
+    border: 2px solid #fff;
+  }
+}
+
+/* Loading State */
+.reception-display.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  text-align: center;
+}
+
+.loading-spinner .spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
