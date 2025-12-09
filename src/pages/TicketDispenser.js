@@ -19,9 +19,110 @@ const TicketDispenserKiosk = () => {
   const lastReloadTimeRef = useRef(Date.now());
   const autoReloadIntervalRef = useRef(null);
 
-  const hospitalTitle = "AL-KHIDMAT RAAZI HOSPITAL";
+  const hospitalTitle = "ALKHIDMAT RAAZI HOSPITAL";
   const hospitalLogoImage = settings?.hospitalLogo || '';
   const hospitalLocation = settings?.hospitalCity || 'ISLAMABAD';
+  const ticketMessage = "Please be seated. You will be served shortly.";
+
+  const formatGeneratedAt = () => {
+    const now = new Date();
+    const date = now.toLocaleDateString("en-PK");
+    const time = now.toLocaleTimeString("en-PK", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
+    return `${date}, ${time}`;
+  };
+
+  const buildTicketHtml = (data) => `
+    <html>
+      <head>
+        <style>
+          * { box-sizing: border-box; }
+          body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
+          .ticket {
+            width: 240px;
+            margin: 0 auto;
+            padding: 12px 14px;
+            border: 1px solid #000;
+          }
+          .title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0 0 3px 0;
+          }
+          .subtitle {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+          }
+          .separator {
+            border-top: 1px solid #000;
+            margin: 8px 0 12px 0;
+          }
+          .number {
+            text-align: center;
+            font-size: 40px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin: 0 0 10px 0;
+          }
+          .department {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+          }
+          .message {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+          }
+          .footer {
+            text-align: center;
+            font-size: 10px;
+            margin: 10px 0 0 0;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="ticket">
+          <div class="title">${data.hospitalName}</div>
+          <div class="subtitle">${data.city}</div>
+          <div class="separator"></div>
+          <div class="number">${data.ticketNumber}</div>
+          <div class="department">DEPT: ${data.departmentName}</div>
+          <div class="separator"></div>
+          <div class="message">${ticketMessage}</div>
+          <div class="separator"></div>
+          <div class="footer">Generated at: ${data.generatedAt}</div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const printTicket = (data) => {
+    const html = buildTicketHtml(data);
+    const printWindow = window.open("", "PRINT", "height=600,width=400");
+    if (!printWindow) {
+      console.error("Unable to open print window");
+      return;
+    }
+    printWindow.document.write(html);
+    printWindow.document.close();
+    printWindow.focus();
+    // Slight delay to allow layout before print
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 150);
+  };
 
   useEffect(() => {
     initializeKioskMode();
@@ -205,15 +306,20 @@ const TicketDispenserKiosk = () => {
       const payload = {
         ticketNumber: ticketData.ticketNumber,
         departmentName: department.name,
-        hospitalName: "AL-KHIDMAT RAAZI HOSPITAL",
+        hospitalName: hospitalTitle,
+        city: hospitalLocation,
         date: new Date().toLocaleDateString("en-PK"),
         time: new Date().toLocaleTimeString("en-PK", {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
         }),
+        generatedAt: formatGeneratedAt(),
         departmentCode: department.prefix || department.code?.toUpperCase() || 'GEN'
       };
+
+      // ✅ Client-side print matching the reference layout
+      printTicket(payload);
 
       // ✅ ENHANCED PRINTING WITHOUT VOICE
       const printPromise = fetch("/api/print-ticket", {
