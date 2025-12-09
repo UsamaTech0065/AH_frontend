@@ -12,7 +12,7 @@ const TicketDispenserKiosk = () => {
   const socket = useSocket();
   const [departmentsList, setDepartmentsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // ✅ REMOVED: All voice-related references
   const [printingStates, setPrintingStates] = useState({});
   const printQueueRef = useRef(new Map());
@@ -22,112 +22,11 @@ const TicketDispenserKiosk = () => {
   const hospitalTitle = "ALKHIDMAT RAAZI HOSPITAL";
   const hospitalLogoImage = settings?.hospitalLogo || '';
   const hospitalLocation = settings?.hospitalCity || 'ISLAMABAD';
-  const ticketMessage = "Please be seated. You will be served shortly.";
-
-  const formatGeneratedAt = () => {
-    const now = new Date();
-    const date = now.toLocaleDateString("en-PK");
-    const time = now.toLocaleTimeString("en-PK", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    });
-    return `${date}, ${time}`;
-  };
-
-  const buildTicketHtml = (data) => `
-    <html>
-      <head>
-        <style>
-          * { box-sizing: border-box; }
-          body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
-          .ticket {
-            width: 240px;
-            margin: 0 auto;
-            padding: 12px 14px;
-            border: 1px solid #000;
-          }
-          .title {
-            text-align: center;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin: 0 0 3px 0;
-          }
-          .subtitle {
-            text-align: center;
-            font-size: 11px;
-            font-weight: 600;
-            margin: 0 0 10px 0;
-          }
-          .separator {
-            border-top: 1px solid #000;
-            margin: 8px 0 12px 0;
-          }
-          .number {
-            text-align: center;
-            font-size: 40px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            margin: 0 0 10px 0;
-          }
-          .department {
-            text-align: center;
-            font-size: 12px;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-          }
-          .message {
-            text-align: center;
-            font-size: 10px;
-            font-weight: 600;
-            margin: 0 0 10px 0;
-          }
-          .footer {
-            text-align: center;
-            font-size: 10px;
-            margin: 10px 0 0 0;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="ticket">
-          <div class="title">${data.hospitalName}</div>
-          <div class="subtitle">${data.city}</div>
-          <div class="separator"></div>
-          <div class="number">${data.ticketNumber}</div>
-          <div class="department">DEPT: ${data.departmentName}</div>
-          <div class="separator"></div>
-          <div class="message">${ticketMessage}</div>
-          <div class="separator"></div>
-          <div class="footer">Generated at: ${data.generatedAt}</div>
-        </div>
-      </body>
-    </html>
-  `;
-
-  const printTicket = (data) => {
-    const html = buildTicketHtml(data);
-    const printWindow = window.open("", "PRINT", "height=600,width=400");
-    if (!printWindow) {
-      console.error("Unable to open print window");
-      return;
-    }
-    printWindow.document.write(html);
-    printWindow.document.close();
-    printWindow.focus();
-    // Slight delay to allow layout before print
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 150);
-  };
 
   useEffect(() => {
     initializeKioskMode();
     startAutoReload();
-    
+
     return () => {
       cleanupKioskMode();
       stopAutoReload();
@@ -155,22 +54,22 @@ const TicketDispenserKiosk = () => {
   // ✅ ENHANCED: BACKEND-BASED AUTO-RELOAD EVERY 20 SECONDS
   const startAutoReload = () => {
     console.log('🔄 Starting continuous backend auto-reload every 20 seconds');
-    
+
     // Clear any existing interval
     if (autoReloadIntervalRef.current) {
       clearInterval(autoReloadIntervalRef.current);
     }
-    
+
     // Set new interval for 20 seconds
     autoReloadIntervalRef.current = setInterval(() => {
       const now = Date.now();
       const timeSinceLastReload = now - lastReloadTimeRef.current;
-      
+
       // Only reload if it's been at least 20 seconds
       if (timeSinceLastReload >= 20000) {
         console.log('🔄 Backend auto-reloading page (20 seconds interval)');
         lastReloadTimeRef.current = now;
-        
+
         // ✅ IMPORTANT: Use backend-driven reload without affecting kiosk mode
         window.location.reload();
       } else {
@@ -274,7 +173,7 @@ const TicketDispenserKiosk = () => {
   // ✅ ENHANCED: TICKET GENERATION WITHOUT VOICE AND WITH AUTO-RELOAD PROTECTION
   const generateNewTicket = async (department) => {
     const departmentId = department._id;
-    
+
     // ✅ PROTECTION: Prevent multiple clicks
     if (printingStates[departmentId] || printQueueRef.current.has(departmentId)) {
       console.log(`⚠️ Already processing: ${department.name}`);
@@ -285,7 +184,7 @@ const TicketDispenserKiosk = () => {
     const now = Date.now();
     const lastPrintTime = printQueueRef.current.get(departmentId) || 0;
     const timeSinceLastPrint = now - lastPrintTime;
-    
+
     if (timeSinceLastPrint < 800) {
       console.log(`⏳ Too fast, please wait: ${department.name}`);
       return;
@@ -314,12 +213,8 @@ const TicketDispenserKiosk = () => {
           minute: "2-digit",
           hour12: true,
         }),
-        generatedAt: formatGeneratedAt(),
         departmentCode: department.prefix || department.code?.toUpperCase() || 'GEN'
       };
-
-      // ✅ Client-side print matching the reference layout
-      printTicket(payload);
 
       // ✅ ENHANCED PRINTING WITHOUT VOICE
       const printPromise = fetch("/api/print-ticket", {
@@ -328,12 +223,12 @@ const TicketDispenserKiosk = () => {
         body: JSON.stringify(payload),
       });
 
-      const printTimeoutPromise = new Promise((resolve) => 
-        setTimeout(() => resolve({ ok: false, status: 'timeout' }), 10000)
+      const printTimeoutPromise = new Promise((resolve) =>
+          setTimeout(() => resolve({ ok: false, status: 'timeout' }), 10000)
       );
 
       const printResponse = await Promise.race([printPromise, printTimeoutPromise]);
-      
+
       if (printResponse.ok) {
         const result = await printResponse.json();
         console.log('✅ Print request successful:', result);
@@ -349,12 +244,12 @@ const TicketDispenserKiosk = () => {
 
     } catch (err) {
       console.error("❌ Ticket generation error:", err);
-      
+
       // ✅ AUTO-RECOVERY ON ERROR
       if (err.message.includes('timeout') || err.message.includes('network')) {
         console.log('🔄 Auto-recovering from timeout...');
       }
-      
+
     } finally {
       // ✅ GUARANTEED CLEANUP
       setTimeout(() => {
@@ -383,95 +278,95 @@ const TicketDispenserKiosk = () => {
 
   if (isLoading && !departmentsList.length) {
     return (
-      <div className="ticket-dispenser-container dark-blue-theme">
-        <div className="dispenser-background-logo">
-          {hospitalLogoImage && <img src={hospitalLogoImage} alt="Hospital Logo" className="dispenser-logo-blur" />}
+        <div className="ticket-dispenser-container dark-blue-theme">
+          <div className="dispenser-background-logo">
+            {hospitalLogoImage && <img src={hospitalLogoImage} alt="Hospital Logo" className="dispenser-logo-blur" />}
+          </div>
+          <div className="dispenser-loading-container">
+            <div className="dispenser-spinner"></div>
+            <div className="dispenser-loading-text">Loading Hospital Services...</div>
+          </div>
         </div>
-        <div className="dispenser-loading-container">
-          <div className="dispenser-spinner"></div>
-          <div className="dispenser-loading-text">Loading Hospital Services...</div>
-        </div>
-      </div>
     );
   }
 
   return (
-    <div className="ticket-dispenser-container kiosk-mode">
-      <div className="dispenser-background-logo">
-        {hospitalLogoImage && <img src={hospitalLogoImage} alt="Hospital Logo" className="dispenser-logo-blur" />}
-      </div>
+      <div className="ticket-dispenser-container kiosk-mode">
+        <div className="dispenser-background-logo">
+          {hospitalLogoImage && <img src={hospitalLogoImage} alt="Hospital Logo" className="dispenser-logo-blur" />}
+        </div>
 
-      <div className="dispenser-content-wrapper">
-        <div className="dispenser-header">
-          <div className="dispenser-branding">
-            {hospitalLogoImage ? (
-              <img src={hospitalLogoImage} alt="Hospital Logo" className="dispenser-logo" />
-            ) : (
-              <div className="dispenser-logo-placeholder">
-                <i className="fas fa-hospital-alt"></i>
+        <div className="dispenser-content-wrapper">
+          <div className="dispenser-header">
+            <div className="dispenser-branding">
+              {hospitalLogoImage ? (
+                  <img src={hospitalLogoImage} alt="Hospital Logo" className="dispenser-logo" />
+              ) : (
+                  <div className="dispenser-logo-placeholder">
+                    <i className="fas fa-hospital-alt"></i>
+                  </div>
+              )}
+              <div className="dispenser-details">
+                <h1 className="dispenser-title">{hospitalTitle}</h1>
+                <p className="dispenser-location">{hospitalLocation}</p>
               </div>
-            )}
-            <div className="dispenser-details">
-              <h1 className="dispenser-title">{hospitalTitle}</h1>
-              <p className="dispenser-location">{hospitalLocation}</p>
             </div>
           </div>
-        </div>
 
-        {/* ✅ HIDDEN STATUS */}
-        <div style={{ display: 'none' }}>
-          Active Prints: {Object.keys(printingStates).length} |
-          Last Reload: {Math.floor((Date.now() - lastReloadTimeRef.current) / 1000)}s ago |
-          Auto-reload: Active
-        </div>
+          {/* ✅ HIDDEN STATUS */}
+          <div style={{ display: 'none' }}>
+            Active Prints: {Object.keys(printingStates).length} |
+            Last Reload: {Math.floor((Date.now() - lastReloadTimeRef.current) / 1000)}s ago |
+            Auto-reload: Active
+          </div>
 
-        <div className="dispenser-grid">
-          {departmentsList.map((dept, index) => {
-            const isDepartmentPrinting = printingStates[dept._id] || false;
-            
-            return (
-              <div 
-                key={dept._id} 
-                className={`dispenser-card ${isDepartmentPrinting ? 'printing' : ''}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-                onClick={() => !isDepartmentPrinting && generateNewTicket(dept)}
-              >
-                <div className="dispenser-card-header">
-                  <div className="dispenser-icon">
-                    <i className={`fas fa-${getDepartmentIconName(dept.code)}`}></i>
-                  </div>
-                  <div className="dispenser-meta">
+          <div className="dispenser-grid">
+            {departmentsList.map((dept, index) => {
+              const isDepartmentPrinting = printingStates[dept._id] || false;
+
+              return (
+                  <div
+                      key={dept._id}
+                      className={`dispenser-card ${isDepartmentPrinting ? 'printing' : ''}`}
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                      onClick={() => !isDepartmentPrinting && generateNewTicket(dept)}
+                  >
+                    <div className="dispenser-card-header">
+                      <div className="dispenser-icon">
+                        <i className={`fas fa-${getDepartmentIconName(dept.code)}`}></i>
+                      </div>
+                      <div className="dispenser-meta">
                     <span className="dispenser-code">
                       {dept.prefix || dept.code?.toUpperCase() || 'GEN'}
                     </span>
+                      </div>
+                    </div>
+
+                    <div className="dispenser-card-content">
+                      <h3 className="dispenser-dept-name">{dept.name}</h3>
+                    </div>
+
+                    <div className={`dispenser-button ${isDepartmentPrinting ? 'printing' : ''}`}>
+                      {isDepartmentPrinting ? (
+                          <>
+                            <i className="fas fa-spinner fa-spin"></i>
+                            Printing...
+                          </>
+                      ) : (
+                          <>
+                            <i className="fas fa-ticket-alt"></i>
+                            GET TICKET
+                          </>
+                      )}
+                    </div>
                   </div>
-                </div>
-                
-                <div className="dispenser-card-content">
-                  <h3 className="dispenser-dept-name">{dept.name}</h3>
-                </div>
+              );
+            })}
+          </div>
 
-                <div className={`dispenser-button ${isDepartmentPrinting ? 'printing' : ''}`}>
-                  {isDepartmentPrinting ? (
-                    <>
-                      <i className="fas fa-spinner fa-spin"></i>
-                      Printing...
-                    </>
-                  ) : (
-                    <>
-                      <i className="fas fa-ticket-alt"></i>
-                      GET TICKET
-                    </>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+
         </div>
-
-        
       </div>
-    </div>
   );
 };
 
